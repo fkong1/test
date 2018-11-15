@@ -1,0 +1,41 @@
+version: '3'
+services:
+  master:
+    image: assignment2:latest
+    ports:
+      - "8081:8080"
+    environment:
+      - "IP=172.20.0.10"
+      - "PORT=8080"
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.10
+  slave01:
+    image: assignment2:latest
+    ports:
+      - "8082:8080"
+    environment:
+      - "IP=172.20.0.11"
+      - "PORT=8080"
+      - "MAINIP=172.20.0.10:8080"
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.11
+  slave02:
+    image: assignment2:latest
+    ports:
+      - "8083:8080"
+    environment:
+      - "IP=172.20.0.12"
+      - "PORT=8080"
+      - "MAINIP=172.20.0.10:8080"
+    networks:
+      static-network:
+        ipv4_address: 172.20.0.12
+networks:
+  static-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/24
